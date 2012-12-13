@@ -1,0 +1,78 @@
+html {
+	background: #f8f8f8;
+}
+body {
+	font-size: 10pt;
+	width: 600px;
+	margin: 0 auto;
+	padding: 16px;
+	background: white;
+}
+#author {
+	font-size: 8pt;
+	text-align: right;
+}
+h1 {
+	text-align: center;
+	margin-top: 0;
+}
+h2,h3,h4 {
+	background: #cceeff;
+	line-height: 100%;
+	padding-top: 0.3em;
+	padding-bottom: 0.1em;
+	padding-left: 0.5em;
+	vertical-align: bottom;
+}
+h2 {
+	margin-top: 2em;
+	border-left: 2px solid #2244ff;
+	border-top: 1px solid #2244ff;
+	//border-bottom: 1px solid #2244ff;
+}
+h3 {border-left: 4px solid #4488ff;}
+h4 {
+	margin-bottom: 0.5em;
+	border-left: 8px solid #88aaff;
+	font-weight: normal;
+}
+sup {
+	color: red;
+}
+img {
+	vertical-align: middle;
+	border-color: #88aaff;
+	padding: 2px;
+}
+pre {
+	font-size: 12px;
+	border: 1px solid #88aaff;
+	background: #f0f0ff;
+	margin: 0 8px;
+	padding: 4px;
+}
+blockquote {
+	font-size: 8px;
+	border: 1px inset #ccc;
+	background: #f8f8f8;
+	margin: 0 8px;
+	padding: 4px;
+}
+
+.LightTable {
+	border-spacing: 0;
+	border-top: 1px solid #aaa;
+	border-left: 1px solid #aaa;
+	margin-left: 1em;
+}
+.LightTable  td,th {
+	border-right: 1px solid #aaa;
+	border-bottom: 1px solid #aaa;
+	padding:4px;
+}
+
+
+.Mokuji_H2 {margin-left: 1em;}
+.Mokuji_H3 {margin-left: 2em;}
+.Mokuji_H4 {margin-left: 3em;}
+noscript {color:red;}
