@@ -1,5 +1,5 @@
 
-lod24/*.png
+led24/*.png
 ---------------------------------------------------------------------------------------
 The icons are free for personal use and also free for commercial use, but we require linking to our web site.
 
@@ -29,6 +29,7 @@ TITLE:	Crystal Project Icons
 AUTHOR:	Everaldo Coelho
 SITE:	http://www.everaldo.com
 CONTACT: everaldo@everaldo.com
+LICENCE: LGPL
 
 Copyright (c) 2006-2007 Everaldo Coelho.
 ---------------------------------------------------------------------
