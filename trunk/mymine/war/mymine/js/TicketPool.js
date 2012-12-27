@@ -24,17 +24,23 @@ function TicketPool(){this.initialize.apply(this, arguments)};
 		Storage.put("issue/"+num, pool[num]);
 	}
 	Class.isChecked = function(num) {
-		return pool[num].checked > Date.parse(pool[num].updated_on);
+		var dateStr = pool[num].updated_on;
+		dateStr = dateStr.replace(/[+][0-9]{4}$/,"GMT$&");
+		//console.log("isChecked",num,new Date(pool[num].checked) , new Date(Date.parse(dateStr)));
+		return pool[num].checked > Date.parse(dateStr);
 	}
 	Class.removeFromStorage = function(num) {
 		Storage.remove("issue/"+num);
 	}
 	Class.update = function(nums) {
+		MyMine.waiting(true);
+		MyMine.progress(0);
+		
 		var count = nums.length;
 		var total = nums.length;
 		for (var i=0; i<nums.length; i++) {
-			RedMine.getIssue(nums[i], function(issue){
-				Class.putWithSave(issue);
+			RedMine.getIssue(nums[i], function(data){
+				Class.putWithSave(data.issue);
 				if (--count <= 0) {
 					MyMine.waiting(false);
 					Folders.refresh();

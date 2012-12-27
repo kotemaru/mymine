@@ -64,6 +64,16 @@ function Inbox(){this.initialize.apply(this, arguments)};
 			
 			Control.refreshMasterTable();//TODO:このタイミング？
 			if (callback) callback(issues);
+			
+			// BUGFIX issue#2 2012.12.27
+			// チケット一覧にスクロールバーが無ければ次２５件を読み込み。
+			setTimeout(function(){
+				if (!TicketTray.hasScrollBar()) {
+					console.log("More...");
+					Class.next();
+				}
+			},1);
+			
 		}, query, opts);
 	}
 
