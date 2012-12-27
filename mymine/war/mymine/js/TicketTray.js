@@ -209,6 +209,10 @@ function TicketTray(){this.initialize.apply(this, arguments)};
 	Class.addSelection = function(elem) {
 		$(elem).addClass(TicketSelect);
 	}
+	Class.hasScrollBar = function() {
+		var tray =  $(_TICKET_TRAY+" "+_ExTableBody)[0];
+		return (tray.clientHeight < tray.scrollHeight);
+	}
 
 	function bindMove() {
 		// Ticket
@@ -286,9 +290,8 @@ function TicketTray(){this.initialize.apply(this, arguments)};
 				},1);
 			});
 		}
-
 	}
-	
+
 	
 	$(function(){
 		// テーブル生成
