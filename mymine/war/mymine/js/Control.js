@@ -40,11 +40,11 @@ function Control(){this.initialize.apply(this, arguments)};
 		initMasterTable();
 		initCustomQuery();
 	}
-	
+
 	function initProjects() {
 		RedMine.getProjects(function(data){
 			var projects = data.projects;
-			
+
 			var $sel = $("#projectSelector").html("<option value=''>*</option>");
 			for (var i=0; i<projects.length; i++) {
 				var project = projects[i];
@@ -55,7 +55,7 @@ function Control(){this.initialize.apply(this, arguments)};
 			}
 			$sel.val(Storage.get("projectSelector"));
 		});
-		
+
 	}
 	function initCustomQuery() {
 		var $btns = $("#customQueryButtons");
@@ -78,11 +78,13 @@ function Control(){this.initialize.apply(this, arguments)};
 
 		var $filters = $("#filterButtons").html("");
 		for (var k in masterTable) {
-			if (k.indexOf("cf_")==0) continue; // TODO:カスタムフィールドの扱い
+			//if (k.indexOf("cf_")==0) continue; // TODO:カスタムフィールドの扱い
 			var $btn = PulldownButton.makeElement("filter_"+k, masterTable[k]);
 			$filters.append($btn);
 		}
 	}
+
+
 	function refreshMasterTable() {
 		var masterTable = MasterTable.getMasterTable();
 		if (masterTable == null) return;
@@ -93,8 +95,8 @@ function Control(){this.initialize.apply(this, arguments)};
 		}
 	}
 	Class.refreshMasterTable = refreshMasterTable;
-	
-	
+
+
 	function save() {
 		Storage.put("customFilter", {
 			customImg:   Class.customImg ,
@@ -110,7 +112,7 @@ function Control(){this.initialize.apply(this, arguments)};
 			Class[k] = customFilter[k];
 		}
 	}
-	
+
 	$(function(){
 		if (RedMine.apiKey != "") {
 			RedMine.getCurrentUser(function(data){
@@ -119,7 +121,7 @@ function Control(){this.initialize.apply(this, arguments)};
 		}
 
 		load();
-		
+
 		$("#projectSelector").live("change", function(){
 			//Folder.inbox();
 			Storage.put("projectSelector",  $(this).val());
@@ -131,7 +133,7 @@ function Control(){this.initialize.apply(this, arguments)};
 			$(".FilterButtons").toggleClass("Disabled", query!=null);
 		});
 
-		
+
 		// 空白削除
 		function removeSpace(){
 			if (this.nodeType==3) this.parentNode.removeChild(this);
@@ -139,7 +141,7 @@ function Control(){this.initialize.apply(this, arguments)};
 		$("#filterPack").contents().each(removeSpace);
 		$("#filterPack>span").contents().each(removeSpace);
 		$("#configPack").contents().each(removeSpace);
-		
+
 		Class.reconfig();
 	});
 
@@ -156,11 +158,38 @@ function Control(){this.initialize.apply(this, arguments)};
 		}
 	}
 	Class.update = function(ev) {
-		if (event.shiftKey) {
-			Folders.updateAll();
-		} else {
-			Folders.update();
+		if ($("#ticketTray").is(":visible")) {
+			if (event.shiftKey) {
+				Folders.updateAll();
+			} else {
+				Folders.update();
+			}
+		} else if ($("#taskBoard").is(":visible")) {
+			TaskBoard.load();
 		}
+	}
+
+	//----------------------------------------------------------
+	// 看板
+	Class.listView = function(ev) {
+		$("#ticketTray").show();
+		$("#backlogs").hide();
+		$("#taskBoard").hide();
+		Inbox.first();
+		Folders.select(Folders.getInbox());
+	}
+	Class.backlogs = function(ev) {
+		//$(".BorderLayoutLeft").hide();
+		$("#ticketTray").hide();
+		$("#backlogs").show();
+		$("#taskBoard").hide();
+	}
+	Class.taskBoard = function(ev) {
+		//$(".BorderLayoutLeft").hide();
+		$("#ticketTray").hide();
+		$("#backlogs").hide();
+		$("#taskBoard").show();
+		TaskBoard.load();
 	}
 
 })(Control);

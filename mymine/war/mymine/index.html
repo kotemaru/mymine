@@ -16,6 +16,7 @@
 	<link rel="stylesheet" href="css/Ticket.css" />
 	<link rel="stylesheet" href="css/PopupMenu.css" />
 	<link rel="stylesheet" href="css/ZIndex.css" />
+	<link rel="stylesheet" href="css/TaskBoard.css" />
 
 	<script src="jq/jquery-1.8.2.js" ></script>
 
@@ -38,6 +39,7 @@
 	<script src="js/Folders.js" ></script>
 	<script src="js/TicketTray.js" ></script>
 	<script src="js/Inbox.js" ></script>
+	<script src="js/TaskBoard.js" ></script>
 
 	<script>
 $(function(){
@@ -60,17 +62,18 @@ function include($parent, url) {
 	});
 }
 
-	
-	
+
+
 $(function(){
 	BorderLayout.init({
 		header:{size:60, resizable:false},
 		left:  {size:200, resizable:true}
 	}).load().refresh();
-	
+
 	TicketTray.sort(6,true); // 更新日,DESC
-	Inbox.first();
-	Folders.select(Folders.getInbox());
+	//Inbox.first();
+	//Folders.select(Folders.getInbox());
+	Control.taskBoard();
 });
 	</script>
 </head>
@@ -78,6 +81,8 @@ $(function(){
 	<!-- ========= Main Panel =========================================== -->
 	<section class="BorderLayoutMain">
 		<div id="ticketTray" class="ExTable"></div>
+		<div id="backlogs" style="display:none;">KANBAN1</div>
+		<div id="taskBoard" style="display:none;"><table id="taskBoardTable"></table></div>
 	</section>
 
 	<!-- ========= Left Side Panel =========================================== -->
@@ -92,7 +97,7 @@ $(function(){
 		</header>
 		<section id="folders">
 		</section>
-	
+
 		<span class="BorderLayoutHandle" ></span>
 	</section>
 
@@ -101,10 +106,10 @@ $(function(){
 		<span class="BorderLayoutHandle"  ></span>
 	</section>
 	-->
-	
+
 	<!-- ========= Header Panel =========================================== -->
 	<header class="BorderLayoutHeader" >
-		<img id="logoImage" class="Button" src="img/kmines.png"  
+		<img id="logoImage" class="Button" src="img/kmines.png"
 			onclick="Dialog.open('#abortDialog')"
 			alt="MyMineについて"/>
 		<div id="buttons">
@@ -112,10 +117,15 @@ $(function(){
 				<select id="projectSelector" ></select>
 				<img class="Button" src="img/led24/arrow_refresh.png" onclick="Control.update()"
 						alt="フォルダ内のチケットを最新化する<br/>(Shift+ で全フォルダ)"/>
+				　　
+				<img class="Button" src="img/led24/application_view_list.png" onclick="Control.listView()"
+						alt="一覧表示"/>
+				<img class="Button" src="img/led24/application_view_tile.png" onclick="Control.taskBoard()"
+						alt="看板表示"/>
 			</div>
 
 			<div id="configPack" >
-				<img class="Button" src="img/led24/book_open.png" 
+				<img class="Button" src="img/led24/book_open.png"
 						onclick="window.open('manual.html')"
 						alt="ヘルプ" />
 				<img class="Button" src="img/led24/page_white_put.png" onclick="Dialog.download()"
@@ -154,12 +164,12 @@ $(function(){
 		</div>
 	</header>
 
-	<!-- ========= Footer Panel 
+	<!-- ========= Footer Panel
 	<footer class="BorderLayoutFooter" >
 		<span class="BorderLayoutHandle"  ></span>
 	</footer>
 	-->
-	
+
 	<!-- ======================= Dialog =============================== -->
 	<div id="dialogPanel" class="DialogPanel" >
 		<div class="DialogMask" > </div>
@@ -199,7 +209,19 @@ $(function(){
 			</span>
 		</div>
 
+		<div id="templ_kanban" class="Kanban">
+			<div>
+				<img id="tracker" src="img/led24/page.png" height="12px"/>
+				#<span id="ticketId"></span>
+				<img src="img/led24/user.png" height="12px"/>
+				<span id="assigned"></span>
+			</div>
+			<div id="title"></div>
+		</div>
+
+
 	</div>
+
 
 </body>
 </html>

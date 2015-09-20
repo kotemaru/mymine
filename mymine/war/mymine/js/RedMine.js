@@ -4,7 +4,7 @@ function RedMine(){this.initialize.apply(this, arguments)};
 	Class.absPath = "";
 	Class.apiPath = "/";
 	Class.apiKey = "";
-	
+
 	Class.prototype.initialize = function() {
 	}
 
@@ -27,7 +27,7 @@ function RedMine(){this.initialize.apply(this, arguments)};
 			MyMine.waiting(false);
 		});
 	}
-	
+
 	Class.getIssue = function(num, callback) {
 		var url = Class.apiPath + "/issues/"+num+".json"
 			+ "?key=" + Class.apiKey;
@@ -37,6 +37,12 @@ function RedMine(){this.initialize.apply(this, arguments)};
 	Class.getProjects = function(callback) {
 		var url = Class.apiPath + "/projects.json"
 			+ "?key=" + Class.apiKey;
+		getJsonAsync(url, callback);
+	}
+
+
+	Class.getMaster = function(type, callback) {
+		var url = Class.apiPath + "/"+type+".json"+ "?key=" + Class.apiKey;;
 		getJsonAsync(url, callback);
 	}
 
@@ -60,13 +66,12 @@ function RedMine(){this.initialize.apply(this, arguments)};
 		});
 	}
 
-	Class.openIsuue = function(num) {
+	Class.openIssue = function(num) {
 		var absPath = (Class.absPath=="")?Class.apiPath:Class.absPath;
 		var url = absPath+"/issues/"+num;
 		window.open(url,"_blank");
 	}
-	
-	
+
 	Class.save = function(num) {
 		var data = {
 			absPath: Class.absPath,
@@ -75,15 +80,15 @@ function RedMine(){this.initialize.apply(this, arguments)};
 		};
 		Storage.put("RedMine", data);
 	}
-	
+
 	Class.load = function(num) {
 		var data = Storage.get("RedMine");
 		if (data == null) return;
-		Class.absPath =	data.absPath; 
-		Class.apiPath =	data.apiPath; 
+		Class.absPath =	data.absPath;
+		Class.apiPath =	data.apiPath;
 		Class.apiKey  =	data.apiKey;
 	}
-	
+
 	$(function(){
 		Class.load();
 	})

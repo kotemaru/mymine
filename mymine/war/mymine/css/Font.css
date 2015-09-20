@@ -1,4 +1,8 @@
 
-@font-face {
-	font-family: mplus-2m-regular;
-	src: url('../../mymine/font/mplus-2m-regular.ttf') format("truetype");
+@font-face{
+  font-family: 'mplus-2m-regular';
+  src: url('http://mplus-webfonts.sourceforge.jp/mplus-2m-regular.eot');
+  src: url('http://mplus-webfonts.sourceforge.jp/mplus-2m-regular.eot?#iefix') format('embedded-opentype'),
+       url('http://mplus-webfonts.sourceforge.jp/mplus-2m-regular.woff') format('woff'),
+       url('http://mplus-webfonts.sourceforge.jp/mplus-2m-regular.ttf') format('truetype');
+}
