@@ -26,6 +26,7 @@ function TaskBoard() {
 					story.status[issue.status.id][issue.id] = issue;
 					story.childCount++;
 				}
+				MasterTable.register(issue);
 			}
 
 			var storyArray = [];
@@ -102,6 +103,7 @@ function TaskBoard() {
 		$kanban.find("#ticketId").text(issue.id);
 		$kanban.find("#title").text(issue.subject);
 		$kanban.find("#assigned").text(issue.assigned_to ? issue.assigned_to.name : "");
+		$kanban.find("#assignedIcon").toggle(issue.assigned_to!=null);
 
 		var colors = {
 			1 : "#e0e0ff",
