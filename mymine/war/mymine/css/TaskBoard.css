@@ -9,10 +9,11 @@
 	border-spacing: 0px;
 }
 
-#taskBoardTable th, td {
+#taskBoardTable th, #taskBoardTable td {
 	min-width: 200px;
 	border: 1px #888888 solid;
 	vertical-align: top;
+	background: url(../img/bg-1.png) repeat;
 }
 
 .Kanban {

@@ -165,7 +165,7 @@ function Control(){this.initialize.apply(this, arguments)};
 				Folders.update();
 			}
 		} else if ($("#taskBoard").is(":visible")) {
-			TaskBoard.load();
+			TaskBoard.update();
 		}
 	}
 
@@ -189,7 +189,7 @@ function Control(){this.initialize.apply(this, arguments)};
 		$("#ticketTray").hide();
 		$("#backlogs").hide();
 		$("#taskBoard").show();
-		TaskBoard.load();
+		TaskBoard.update();
 	}
 
 })(Control);

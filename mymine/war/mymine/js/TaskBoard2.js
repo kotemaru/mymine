@@ -3,12 +3,12 @@ function TaskBoard() {
 };
 (function(Class) {
 
-	Class.load = function() {
+	Class.update = function() {
 		var opts = {};
 		var query = null;
 		opts.project_id = Control.getProjectId();
 		opts.assigned_to_id = Control.getFilterUser();
-		opts.status_id = Control.getFilterClosed();
+		opts.status_id = "*"; // Control.getFilterClosed();
 		Control.getFilterMasters(opts);
 		opts.limit = 100;
 
@@ -35,8 +35,11 @@ function TaskBoard() {
 				storyArray.push(storys[storyId]);
 			}
 			storyArray.sort(function(a, b) {
-				if (b.issue == null || a.issue == null) return 0;
-				return b.issue.priority.id - a.issue.priority.id;
+				if (b.issue == null && a.issue == null) return 0;
+				if (b.issue != null) return -1;
+				if (a.issue != null) return 1;
+				//return b.issue.priority.id - a.issue.priority.id;
+				return b.issue.id - a.issue.id;
 			});
 
 			$("#taskBoardTable").html($("<tbody/>"));
@@ -48,8 +51,8 @@ function TaskBoard() {
 
 			var $td = append($tr, "<th style='text-align:left;'/>");
 			var statuses = MasterTable.getStatuses();
-			for ( var i=0 ; i<STATE_MAP.length; i++) {
-				$td.append($("<span style='display:inline-block;width:200px;text-align:center;'>"+STATE_MAP[i].name+"</span>"));
+			for ( var i=0 ; i<statusList.length; i++) {
+				$td.append($("<span style='display:inline-block;width:200px;text-align:center;'>"+statusList[i]+"</span>"));
 			}
 
 			for (var i = 0; i < storyArray.length; i++) {
@@ -121,33 +124,56 @@ function TaskBoard() {
 
 		if (opt && opt.tab) {
 			var index = getStateIndex(issue);
-			$kanban.css("margin-left", (index*200)+"px");
+			if (index >= 0) {
+				$kanban.css("margin-left", (index*200+2)+"px");
+			} else {
+				$kanban.css("margin-left", "-100px");
+			}
+		} else {
+			$kanban.css("margin-left", "2px");
 		}
 		return $kanban;
 	}
 
-	$(".Kanban").live("dblclick", function() {
-		var ticketId = $(this).find("#ticketId").text();
-		// console.log("Kanban:",ticketId);
-		var selection = window.getSelection();
-		selection.collapse(document.body, 0);
-		RedMine.openIssue(ticketId + "/edit");
-	});
-
+	var statusList = [];
 	function getStateIndex(issue) {
-		for (var i=0;i<STATE_MAP.length; i++) {
-			if (STATE_MAP[i].name == issue.status.name) return i;
+		for (var i=0;i<statusList.length; i++) {
+			if (statusList[i] == issue.status.name) return i;
 		}
-		return STATE_MAP.length-1;
+		return -1;
 	}
 
-	var STATE_MAP =
-	[
-		 {name:"新規"},
-		 {name:"進行中"},
-		 {name:"解決"},
-		 {name:"終了"},
-		 {name:"その他"}
-	];
+	Class.statusListStr = "";
+	function load() {
+		var config = Storage.get("TaskBoard");
+		if (config != null) {
+			Class.statusListStr = config.statusListStr;
+		}
+		if (Class.statusListStr == null || Class.statusListStr == "") {
+			statusList = [];
+			var values = MasterTable.getStatuses().values;
+			for (var id in values) statusList.push(values[id]);
+		} else {
+			statusList = eval(Class.statusListStr);
+		}
+	}
+	Class.save = function save() {
+		Storage.put("TaskBoard", {
+			statusListStr: Class.statusListStr
+		});
+	}
+
+	$(function(){
+		load();
+
+		$(".Kanban").live("dblclick", function() {
+			var ticketId = $(this).find("#ticketId").text();
+			// console.log("Kanban:",ticketId);
+			var selection = window.getSelection();
+			selection.collapse(document.body, 0);
+			RedMine.openIssue(ticketId + "/edit");
+		});
+	});
+
 
 })(TaskBoard);

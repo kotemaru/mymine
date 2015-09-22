@@ -3,7 +3,7 @@ function Dialog(){this.initialize.apply(this, arguments)};
 (function(Class){
 	var current = name;
 	var closureVar = null;
-	
+
 	Class.open = function(name){
 		current = name;
 		var $win = $(".DialogPanel").show();
@@ -13,12 +13,12 @@ function Dialog(){this.initialize.apply(this, arguments)};
 		restoreDialog($di);
 		$di.trigger("opened");
 	}
-	
+
 	Class.close = function(){
 		$(".DialogPanel").hide();
 		$(current).trigger("closed");
 	}
-	
+
 	Class.save = function() {
 		$dialog = $(current);
 		$inputs = $dialog.find("*[data-path]");
@@ -29,7 +29,7 @@ function Dialog(){this.initialize.apply(this, arguments)};
 		});
 		Class.close();
 	}
-	
+
 	function restoreDialog($dialog) {
 		$inputs = $dialog.find("*[data-path]");
 		$inputs.each(function(){
@@ -89,9 +89,10 @@ function Dialog(){this.initialize.apply(this, arguments)};
 		Class.save();
 		RedMine.save();
 		Control.save();
+		TaskBoard.save();
 		MyMine.reconfig();
 	}
-	
+
 	Class.saveAddFolder = function() {
 		var $di = $("#addFolderDialog");
 		var folder = {
@@ -120,13 +121,13 @@ function Dialog(){this.initialize.apply(this, arguments)};
 		closureVar = Folders.getCurrent();
 		Dialog.open("#editFolderDialog");
 	}
-	
+
 	Class.saveFolder = function() {
 		Class.save();
 		Folders.refresh();
 		Folders.save();
 	}
 
-	
-	
+
+
 })(Dialog);

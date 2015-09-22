@@ -80,14 +80,14 @@ function MasterTable(){this.initialize.apply(this, arguments)};
 	}
 	function load() {
 		masterTable = Storage.get("MasterTable", MASTER_TABLE_BASE);
-		initUsers();
-		initTrackers();
-		initStatuses();
-		initCustomField();
 	}
 
 	$(function(){
 		load();
+		initUsers();
+		initTrackers();
+		initStatuses();
+		initCustomField();
 	});
 
 	function initUsers() {
