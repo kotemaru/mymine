@@ -61,7 +61,10 @@ function RedMine(){this.initialize.apply(this, arguments)};
 			success: callback,
 			error: function(xhr) {
 				MyMine.waiting(false);
-				alert(xhr.status+" "+xhr.statusText);
+				console.error(xhr.status+":"+url);
+				if (xhr.status != 403) {
+					alert(xhr.status+" "+xhr.statusText);
+				}
 			}
 		});
 	}

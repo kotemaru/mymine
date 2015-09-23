@@ -16,6 +16,12 @@
 	background: url(../img/bg-1.png) repeat;
 }
 
+#taskBoardTable th>span {
+	display: inline-block;
+	width: 200px;
+	text-align: center;
+}
+
 .Kanban {
 	box-sizing: border-box;
 	width: 200px;
@@ -28,13 +34,13 @@
 	border-bottom: 1px solid #a0a0a0;
 	margin: 2px;
 	padding: 1px;
-
 	border-bottom-right-radius: 5px;
 	box-shadow: 1px 1px 1px #e0e0e0;
 	background: url(../img/corner.png) no-repeat;
 	background-position: right bottom;
 	background-color: white;
 	user-select: none;
+	line-height:110%;
 }
 
 .Kanban #ticketId {
@@ -52,4 +58,3 @@
 .KanbanDummy {
 	display: none;
 }
-

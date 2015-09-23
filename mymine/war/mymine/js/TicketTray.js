@@ -11,7 +11,7 @@ function TicketTray(){this.initialize.apply(this, arguments)};
 	var _ExTableBody    = "."+ExTableBody;
 	var _Folder         = ".Folder";
 
-	
+
 	var SETTERS = {
 		id:			function($elem,issue) {
 			$elem.text(issue.id);
@@ -25,7 +25,7 @@ function TicketTray(){this.initialize.apply(this, arguments)};
 		assigned_to:function($elem,issue) {$elem.html(name(issue.assigned_to));},
 		author:     function($elem,issue) {$elem.html(name(issue.author));},
 		subject:	function($elem,issue) {$elem.text(issue.subject);},
-	
+
 		start_date:	function($elem,issue) {$elem.html(toYYMMDD(issue.start_date));},
 		due_date:	function($elem,issue) {$elem.html(toYYMMDD(issue.due_date));},
 		updated_on:	function($elem,issue) {$elem.html(toYYMMDD(issue.updated_on));},
@@ -44,7 +44,7 @@ function TicketTray(){this.initialize.apply(this, arguments)};
 		assigned_to:function(a,b){return compName(a,b,"assigned_to");},
 		author:     function(a,b){return compName(a,b,"author");},
 		subject:	function(a,b){var A=a.subject,B=b.subject;return(A==B?0:(A<B?-1:1));},
-		
+
 		start_date:	function(a,b){return compDate(a,b,"start_date");},
 		due_date:	function(a,b){return compDate(a,b,"due_date");},
 		updated_on:	function(a,b){return compDate(a,b,"updated_on");},
@@ -85,20 +85,20 @@ function TicketTray(){this.initialize.apply(this, arguments)};
 	];
 
 	var SORT_NAME = [
-	    "id", 
-		"project", 	 
-		"tracker", 	 
-		"priority", 	 
+	    "id",
+		"project",
+		"tracker",
+		"priority",
 		"assigned_to",
 		"author",
-		"updated_on", 
-		"start_date", 
-		"due_date", 	 
-		"done_ratio", 
-		"subject"         
+		"updated_on",
+		"start_date",
+		"due_date",
+		"done_ratio",
+		"subject"
 	];
-	
-	
+
+
 	//------------------------------------------------------
 	var exTable = null;
 
@@ -138,7 +138,7 @@ function TicketTray(){this.initialize.apply(this, arguments)};
 		var date = new Date(time);
 		return to2ChStr(date.getMonth()+1)+"/"+to2ChStr(date.getDate());
  	}
-	
+
 	Class.setTickets = function(tickets) {
 		var data = [];
 		for (var k in tickets) {
@@ -154,11 +154,11 @@ function TicketTray(){this.initialize.apply(this, arguments)};
 		}
 		exTable.data(data);
 	}
-	
+
 	Class.sort = function(idx, desc) {
 		return exTable.sort(idx, desc);
 	}
-	
+
 	Class.getSortInfo = function() {
 		var sortInfo = exTable.getSortInfo();
 		if (sortInfo == null) return null;
@@ -168,10 +168,10 @@ function TicketTray(){this.initialize.apply(this, arguments)};
 	Class.refresh = function() {
 		return exTable.refresh();
 	}
-	
+
 	//---------------------------------------------------------------------
 	// Event Handler
-	
+
 	var isDrag = false;
 
 	Class.isDrag = function(b) {
@@ -244,7 +244,7 @@ function TicketTray(){this.initialize.apply(this, arguments)};
 			}
 		}).live("dblclick",function(ev){
 			var num = this.dataset.num;
-			RedMine.openIsuue(num);
+			RedMine.openIssue(num);
 			TicketPool.checked(num);
 			Class.refresh();
 			Folders.refresh();
@@ -263,7 +263,7 @@ function TicketTray(){this.initialize.apply(this, arguments)};
 
 	//----------------------------------------------------------------
 	// 初期化
-	
+
 	function save(ev, columnMetas) {
 		Storage.put("columnMetas", columnMetas);
 	}
@@ -276,7 +276,7 @@ function TicketTray(){this.initialize.apply(this, arguments)};
 		}
 		exTable.header(metas);
 	}
-	
+
 	function onScroll() {
 		var bottom = this.scrollTop+this.clientHeight;
 		//console.log(this.scrollTop, this.scrollHeight);
@@ -292,7 +292,7 @@ function TicketTray(){this.initialize.apply(this, arguments)};
 		}
 	}
 
-	
+
 	$(function(){
 		// テーブル生成
 		exTable = new ExTable(_TICKET_TRAY);
@@ -300,7 +300,7 @@ function TicketTray(){this.initialize.apply(this, arguments)};
 		exTable.data([]);
 		$(_TICKET_TRAY).live("columnmove",save).live("columnresize",save);
 		bindMove();
-		
+
 		var $body = $(_TICKET_TRAY+" "+_ExTableBody);
 		//$body.live("scroll",function(){ // Note: 動かない。jQueryバグ？
 		//	console.log("->",this.scrollTop);
@@ -308,6 +308,6 @@ function TicketTray(){this.initialize.apply(this, arguments)};
 		$body[0].onscroll = onScroll;
 	})
 
-	
+
 
 })(TicketTray);

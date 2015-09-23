@@ -49,10 +49,10 @@ function TaskBoard() {
 			var $td = append($tr, "<th/>");
 			$td.text("Story");
 
-			var $td = append($tr, "<th style='text-align:left;'/>");
+			var $td = append($tr, "<th>");
 			var statuses = MasterTable.getStatuses();
 			for ( var i=0 ; i<statusList.length; i++) {
-				$td.append($("<span style='display:inline-block;width:200px;text-align:center;'>"+statusList[i]+"</span>"));
+				$td.append($("<span>"+statusList[i]+"</span>"));
 			}
 
 			for (var i = 0; i < storyArray.length; i++) {
@@ -65,6 +65,9 @@ function TaskBoard() {
 				var $td = append($tr, "<td/>");
 				//console.log("story.children.length:",story.children.length,story.childCount);
 				if (story.children.length > 0) {
+					story.children.sort(function(a,b){
+						return b.id - a.id;
+					});
 					for (var j = 0; j < story.children.length; j++) {
 						$td.append(createKanban(story.children[j],{tab:true}));
 					}
